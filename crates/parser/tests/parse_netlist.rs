@@ -24,21 +24,21 @@ fn test_parse_netlist() {
     assert_eq!(parsed_netlist.resistors[0].value, "10k");
 }
 
-// #[test]
-// fn test_ngspice_netlist() {
-//     let netlist = "
-//     My Circuit
-//     R1 1 0 100
-//     R2 2 0 200
-//     .op
-//     .END
-//     ";
-//     let trimmed_netlist = trim_lines(netlist);
+#[test]
+fn test_ngspice_netlist() {
+    let netlist = "
+    My Circuit
+    R1 1 0 100
+    R2 2 0 200
+    .op
+    .END
+    ";
+    let trimmed_netlist = trim_lines(netlist);
 
-//     let dir = tempdir().expect("Failed to create temporary directory");
-//     let file_path = write_to_temp_file(&trimmed_netlist, &dir);
-//     run_ngspice(&file_path);
-// }
+    let dir = tempdir().expect("Failed to create temporary directory");
+    let file_path = write_to_temp_file(&trimmed_netlist, &dir);
+    run_ngspice(&file_path);
+}
 
 fn trim_lines(netlist: &str) -> String {
     netlist
