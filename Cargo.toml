@@ -1,0 +1,3 @@
+[workspace]
+members = ["crates/languageserver", "crates/parser"]
+resolver = "2"
