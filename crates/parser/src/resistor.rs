@@ -1,20 +1,19 @@
-pub struct Resistor {
-    pub name: String,
-    pub node1: u32,
-    pub node2: u32,
-    pub value: String,
+pub struct Resistor<'a> {
+    pub name: &'a str,
+    pub node1: &'a str,
+    pub node2: &'a str,
+    pub value: &'a str,
 }
 
-pub fn parse_resistor(line: &str) -> Option<Resistor> {
+pub fn parse_resistor(line: &str) -> Result<Resistor<'_>, &'static str> {
     let parts: Vec<&str> = line.split_whitespace().collect();
-    if parts.len() == 4 && parts[0].starts_with('R') {
-        Some(Resistor {
-            name: parts[0].to_string(),
-            node1: parts[1].parse().unwrap(),
-            node2: parts[2].parse().unwrap(),
-            value: parts[3].to_string(),
-        })
-    } else {
-        None
+    if parts.len() != 4 || !parts[0].starts_with('R') {
+        return Err("Line does not represent a resistor");
     }
+    Ok(Resistor {
+        name: parts[0],
+        node1: parts[1],
+        node2: parts[2],
+        value: parts[3],
+    })
 }
