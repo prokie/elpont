@@ -1,4 +1,4 @@
-use crate::{parse_resistor, Resistor};
+use crate::resistor::{parse_resistor, Resistor};
 
 pub struct Netlist<'a> {
     pub title: &'a str,
