@@ -1,3 +1,4 @@
+use parser::elements::Element;
 use parser::netlist::parse_netlist;
 use std::fs::File;
 use std::io::Write;
@@ -17,13 +18,17 @@ fn test_parse_netlist() {
     ";
     let parsed_netlist = parse_netlist(netlist).unwrap();
     assert_eq!(parsed_netlist.title, "My Circuit");
-    assert_eq!(parsed_netlist.resistors.len(), 3);
-    assert_eq!(parsed_netlist.resistors[0].name, "R1");
-    assert_eq!(parsed_netlist.resistors[0].node1, "1");
-    assert_eq!(parsed_netlist.resistors[0].node2, "0");
-    assert_eq!(parsed_netlist.resistors[0].value, "10k");
+    assert_eq!(parsed_netlist.components.len(), 4);
+    let mut resistor_count = 0;
+    if let Element::Resistor(resistor) = &parsed_netlist.components[0] {
+        resistor_count += 1;
+        assert_eq!(resistor.name, "R1");
+        assert_eq!(resistor.node1, "1");
+        assert_eq!(resistor.node2, "0");
+        assert_eq!(resistor.value, "10k");
+    }
+    assert_eq!(resistor_count, 1);
 }
-
 #[test]
 fn test_ngspice_netlist() {
     let netlist = "

@@ -1,4 +1,3 @@
 pub mod analysis;
-pub mod capacitor;
+pub mod elements;
 pub mod netlist;
-pub mod resistor;
