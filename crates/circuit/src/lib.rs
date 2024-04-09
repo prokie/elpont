@@ -30,9 +30,13 @@ impl<'a> Circuit<'a> {
                     nodes.push(current_source.node1);
                     nodes.push(current_source.node2);
                 }
+                Element::Inductor(inductor) => {
+                    nodes.push(inductor.node1);
+                    nodes.push(inductor.node2);
+                }
             }
         }
-        nodes.sort();
+        nodes.sort_unstable();
         nodes.dedup();
         nodes.len()
     }
@@ -58,9 +62,13 @@ impl<'a> Circuit<'a> {
                     nodes.push(current_source.node1);
                     nodes.push(current_source.node2);
                 }
+                Element::Inductor(inductor) => {
+                    nodes.push(inductor.node1);
+                    nodes.push(inductor.node2);
+                }
             }
         }
-        nodes.sort();
+        nodes.sort_unstable();
         nodes.dedup();
         nodes
     }
@@ -70,7 +78,7 @@ impl<'a> Circuit<'a> {
         let mut current_sources = 0;
         for component in &self.netlist.components {
             if let Element::CurrentSource(_) = component {
-                current_sources += 1
+                current_sources += 1;
             }
         }
         current_sources
@@ -81,7 +89,7 @@ impl<'a> Circuit<'a> {
         let mut voltage_sources = 0;
         for component in &self.netlist.components {
             if let Element::VoltageSource(_) = component {
-                voltage_sources += 1
+                voltage_sources += 1;
             }
         }
         voltage_sources
@@ -92,7 +100,7 @@ impl<'a> Circuit<'a> {
         let mut resistors = 0;
         for component in &self.netlist.components {
             if let Element::Resistor(_) = component {
-                resistors += 1
+                resistors += 1;
             }
         }
         resistors
@@ -103,7 +111,7 @@ impl<'a> Circuit<'a> {
         let mut capacitors = 0;
         for component in &self.netlist.components {
             if let Element::Capacitor(_) = component {
-                capacitors += 1
+                capacitors += 1;
             }
         }
         capacitors

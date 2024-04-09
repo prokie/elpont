@@ -8,7 +8,11 @@ pub enum Analyses {
     Sensitivity,
     Transient,
 }
-
+/// Parse the analysis type.
+///
+/// # Errors
+///
+/// Returns an error if the analysis type is unknown.
 pub fn parse_analysis(line: &str) -> Result<Analyses, &'static str> {
     match line {
         ".ac" => Ok(Analyses::AC),

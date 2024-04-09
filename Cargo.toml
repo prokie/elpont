@@ -1,3 +1,11 @@
 [workspace]
 members = ["crates/languageserver", "crates/parser", "crates/circuit"]
 resolver = "2"
+
+
+[workspace.lints.clippy]
+pedantic = "warn"
+
+must_use_candidate = "allow"
+module_name_repetitions = "allow"
+missing_errors_doc = "allow"
