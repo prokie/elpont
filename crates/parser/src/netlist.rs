@@ -3,8 +3,11 @@ use crate::elements::{
     resistor::parse_resistor, voltage_source::parse_voltage_source, Element,
 };
 
+/// A netlist containing components.
 pub struct Netlist<'a> {
+    /// The title of the netlist.
     pub title: &'a str,
+    /// The components in the netlist.
     pub components: Vec<Element<'a>>,
 }
 

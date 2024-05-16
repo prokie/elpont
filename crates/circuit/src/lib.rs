@@ -116,4 +116,88 @@ impl<'a> Circuit<'a> {
         }
         capacitors
     }
+
+    /// Count the number of inductors in the circuit.
+    pub fn count_inductors(&self) -> usize {
+        let mut inductors = 0;
+        for component in &self.netlist.components {
+            if let Element::Inductor(_) = component {
+                inductors += 1;
+            }
+        }
+        inductors
+    }
+
+    /// Get the title of the circuit.
+    pub fn get_title(&self) -> &str {
+        self.netlist.title
+    }
+
+    /// Get the components in the circuit.
+    pub fn get_components(&self) -> &Vec<Element<'a>> {
+        &self.netlist.components
+    }
+
+    /// The G matrix is a nxn matrix of conductances between nodes in the circuit.
+    pub fn generate_g_matrx(&self) -> Vec<Vec<f64>> {
+        let mut g_matrix = vec![];
+        for node in self.get_nodes() {
+            let mut row = Vec::new();
+            for component in self.get_components() {
+                if let Element::Resistor(resistor) = component {
+                    if resistor.node1 == node || resistor.node2 == node {
+                        row.push(resistor);
+                    }
+                }
+            }
+            println!("Node: {}", node);
+            for resistor in row {
+                println!("Resistor: {}", resistor.name);
+            }
+        }
+
+        g_matrix
+    }
+
+    pub fn generate_mna_matrices(&self) {
+        todo!();
+    }
+}
+
+// test the generate_mna_matrices method
+
+#[cfg(test)]
+
+mod tests {
+    use super::*;
+    use parser::netlist::Netlist;
+
+    #[test]
+    fn test_generate_mna_matrices() {
+        let netlist = Netlist {
+            title: "Test Circuit",
+            components: vec![
+                Element::Resistor(parser::elements::resistor::Resistor {
+                    name: "R1",
+                    node1: "n1",
+                    node2: "n2",
+                    value: "1.0",
+                }),
+                Element::Resistor(parser::elements::resistor::Resistor {
+                    name: "R2",
+                    node1: "n2",
+                    node2: "n3",
+                    value: "2.0",
+                }),
+                Element::Resistor(parser::elements::resistor::Resistor {
+                    name: "R3",
+                    node1: "n3",
+                    node2: "n1",
+                    value: "3.0",
+                }),
+            ],
+        };
+        let circuit = Circuit::new(netlist);
+        circuit.generate_mna_matrices();
+    }
 }
