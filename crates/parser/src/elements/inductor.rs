@@ -2,7 +2,7 @@ pub struct Inductor<'a> {
     pub name: &'a str,
     pub node1: &'a str,
     pub node2: &'a str,
-    pub value: &'a str,
+    pub value: f64,
 }
 
 pub fn parse_inductor(line: &str) -> Result<Inductor<'_>, &'static str> {
@@ -10,10 +10,13 @@ pub fn parse_inductor(line: &str) -> Result<Inductor<'_>, &'static str> {
     if parts.len() != 4 || !parts[0].starts_with('L') {
         return Err("Line does not represent an inductor");
     }
+
+    let value = super::translate_value(parts[3]).map_err(|_| "Invalid value for voltage source")?;
+
     Ok(Inductor {
         name: parts[0],
         node1: parts[1],
         node2: parts[2],
-        value: parts[3],
+        value,
     })
 }

@@ -19,7 +19,7 @@ fn test_parse_netlist() {
         assert_eq!(resistor.name, "R1");
         assert_eq!(resistor.node1, "1");
         assert_eq!(resistor.node2, "0");
-        assert_eq!(resistor.value, "10k");
+        assert_eq!(resistor.value, 10e3);
     }
     assert_eq!(resistor_count, 1);
 }
